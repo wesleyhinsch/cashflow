@@ -1,0 +1,32 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres_demo
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: banco123
+      POSTGRES_DB: cash-flow-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - /home/wesleyhinsch/Desenvolvimento/Docker-Compose/PostgreSQL:/var/lib/postgresql/data
+    networks:
+      - postgres-compose-network
+
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "wesleyhinsch@gmail.com.br"
+      PGADMIN_DEFAULT_PASSWORD: "PgAdmin2019!"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+    networks:
+      - postgres-compose-network
+
+networks:
+  postgres-compose-network:
+    driver: bridge
